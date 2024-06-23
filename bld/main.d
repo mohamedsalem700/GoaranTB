@@ -1,3 +1,2 @@
-bld/main.o: src/main.c inc/LIN.h inc/UART.h
-inc/LIN.h:
+bld/main.o: src/main.c inc/UART.h
 inc/UART.h:
