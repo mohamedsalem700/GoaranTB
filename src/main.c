@@ -37,4 +37,4 @@ int main()
     printf("Read %i bytes. Received message: %s", num_bytes, read_buf);
 
      return 0; // success
-};
+}
