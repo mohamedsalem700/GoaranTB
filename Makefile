@@ -4,19 +4,22 @@ CC = gcc
 # Directories
 SRCDIR = ./src
 INCDIR = ./inc
+CFGDIRECTORY = ./cfg
 BLDDIR = ./bld
 
 # Files
-SOURCES = $(wildcard $(SRCDIR)/*.c)
+SOURCES = $(wildcard $(SRCDIR)/*.c) $(wildcard $(CFGDIRECTORY)/*.c)
 OBJECTS = $(patsubst $(SRCDIR)/%.c, $(BLDDIR)/%.o, $(SOURCES))
+OBJECTS := $(patsubst $(CFGDIRECTORY)/%.c, $(BLDDIR)/%.o, $(OBJECTS))
 DEPS = $(patsubst $(SRCDIR)/%.c, $(BLDDIR)/%.d, $(SOURCES))
+DEPS := $(patsubst $(CFGDIRECTORY)/%.c, $(BLDDIR)/%.d, $(DEPS))
 
 # Flags
-CFLAGS = -I$(INCDIR) -Wall -g
+CFLAGS = -I$(INCDIR) -I$(CFGDIRECTORY) -Wall -g
 DEPFLAGS = -MMD -MP
 
 # Target executable
-TARGET = LIN
+TARGET = program
 
 # Default rule
 all: $(BLDDIR)/$(TARGET)
@@ -31,7 +34,12 @@ $(BLDDIR)/$(TARGET): $(OBJECTS)
 # Build objects and dependencies
 $(BLDDIR)/%.o: $(SRCDIR)/%.c
 	@echo "Compiling $<..."
-	@mkdir -p $(BLDDIR)
+	mkdir -p $(BLDDIR)
+	$(CC) $(CFLAGS) $(DEPFLAGS) -c $< -o $@
+
+$(BLDDIR)/%.o: $(CFGDIRECTORY)/%.c
+	@echo "Compiling $<..."
+	mkdir -p $(BLDDIR)
 	$(CC) $(CFLAGS) $(DEPFLAGS) -c $< -o $@
 
 # Include dependencies

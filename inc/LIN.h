@@ -1,6 +1,7 @@
 #pragma once
 
-#define LIN_TST    printf("hello World 123, %s",__FILE__);
+#define LIN_TST printf("hello World 123, %s", __FILE__);
 
+int LIN_enuInit(void);
 
-void tst(void);
+void LIN_enuMainFunction(void);
