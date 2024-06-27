@@ -19,7 +19,7 @@ CFLAGS = -I$(INCDIR) -I$(CFGDIRECTORY) -Wall -g
 DEPFLAGS = -MMD -MP
 
 # Target executable
-TARGET = program
+TARGET = LIN
 
 # Default rule
 all: $(BLDDIR)/$(TARGET)

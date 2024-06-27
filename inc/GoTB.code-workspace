@@ -10,7 +10,8 @@
             "lin.h": "c",
             "lin_hw.h": "c",
             "lin_cfg.h": "c",
-            "lin_types.h": "c"
+            "lin_types.h": "c",
+            "lin_sch.h": "c"
         }
     }
 }

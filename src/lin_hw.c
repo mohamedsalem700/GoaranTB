@@ -60,11 +60,13 @@ int lin_hw_enuInit(void)
 
 int lin_hw_write(__uint8_t *buff, __uint8_t size)
 {
-    for (__uint8_t byteidx = 0; byteidx < size; byteidx++)
-    {
-        out_buffer[byteidx] = buff[byteidx];
-    }
-    write(serial_port, out_buffer, size);
+    // for (__uint8_t byteidx = 0; byteidx < size; byteidx++)
+    // {
+    //     out_buffer[byteidx] = buff[byteidx];
+    // }
+    // write(serial_port, out_buffer, size);
+    printf("%s : write Byte:(%x), size:(%u) ", __func__, *buff);
+
     return 0;
 }
 
@@ -89,7 +91,8 @@ int lin_hw_deInit(void)
     return 0;
 }
 
-int lin_hw_sendBreak(void)
+int lin_hw_enuSendBreak(void)
 {
+    printf("%s() : send break", __func__);
     return 0;
 }
