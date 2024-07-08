@@ -6,12 +6,14 @@
 #include "lin_master.h"
 #include "lin_support.h"
 #include "LIN.h"
-static u8 enuSendFrameHeader(LIN_tstrMaster_frame *);
+static u8 enuSendFrameHeader(u8);
 static u8 u8ClaculatePID(u8 u8FrameID);
 static u8 u8CalculateCheckSum(LIN_tstrMaster_frame *pstrFrameCpy);
 static u8 enuSendDataBaffer(LIN_tstrMaster_frame *psteCurrentFrame);
+static u8 au8HeaderBuffer[2]={0};
 int lin_master_enuInit(void)
 {
+    au8HeaderBuffer[0]=0x55;
     printf("=> lin master Initialized\n");
     return 0;
 }
@@ -19,21 +21,14 @@ int lin_master_enuInit(void)
 int lin_master_enuMainFunction(void)
 {
     u8 u8ExecutionResultLoc;
-    lin_sch_vidScheduler();
+    lin_sch_vidSchd();
+
     if (lin_sch_bIsNewFrameAvailable() == STD_TRUE)
     {
-        LIN_tstrMaster_frame *psteCurrentFrame = lin_sch_pstrGetCurrentFrame();
-        u8ExecutionResultLoc = enuSendFrameHeader(psteCurrentFrame);
-        if (u8ExecutionResultLoc != 0)
-        {
-            if (psteCurrentFrame->slot.frame_type == LIN_FRAME_TYPE_Tx)
-            {
-                enuSendDataBaffer(psteCurrentFrame);
-            }
-            else
-            {
-            }
-        }
+        u8 u8FrameIdx = lin_sch_pstrGetCurrentFrame();
+        u8ExecutionResultLoc = enuSendFrameHeader(u8FrameIdx);
+
+        
     }
     return u8ExecutionResultLoc;
 }
@@ -49,12 +44,10 @@ static u8 enuSendDataBaffer(LIN_tstrMaster_frame *psteCurrentFrame)
 
     return u8ExecutionResultLoc;
 }
-static u8 enuSendFrameHeader(LIN_tstrMaster_frame *pstrFrameCpy)
+static u8 enuSendFrameHeader(u8 u8FrameIdxCpy)
 {
 
     u8 u8ExecutionResultLoc = lin_hw_enuSendBreak();
-    u8 u8Byte = 0x55;
-    u8ExecutionResultLoc |= lin_hw_write(&u8Byte, 1);
     u8Byte = u8ClaculatePID(pstrFrameCpy->slot.u8FrameId);
     u8ExecutionResultLoc |= lin_hw_write(&u8Byte, 1);
     return u8ExecutionResultLoc;

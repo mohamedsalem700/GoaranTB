@@ -15,6 +15,6 @@ int LIN_enuInit(void)
 
 void LIN_enuMainFunction(void)
 {
-
+    lin_master_enuMainFunction();
     return;
 }

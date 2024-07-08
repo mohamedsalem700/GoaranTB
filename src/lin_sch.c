@@ -39,9 +39,9 @@ bool lin_sch_bIsNewFrameAvailable(void)
     return bNewFrameLoc;
 }
 
-LIN_tstrMaster_frame *lin_sch_pstrGetCurrentFrame(void)
+u8 lin_sch_u8GetCurrentFrame(void)
 {
-    return pstrMaster_currentFrame;
+    return u8MasterTableIdx;
 }
 static void vidMoveToNextFrame(void)
 {
@@ -54,5 +54,4 @@ static void vidMoveToNextFrame(void)
         u8MasterTableIdx = 0;
     }
 
-    pstrMaster_currentFrame = &LIN_strLDFConfig.LIN_strMaster_frame_table[u8MasterTableIdx];
 }
